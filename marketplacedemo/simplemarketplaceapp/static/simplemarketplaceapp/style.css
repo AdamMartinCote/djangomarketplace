@@ -1,12 +1,16 @@
-.product-list {
-		/* display: inline-block; */
-		/* width: 25%; */
-}
-
 .purchase-button {
 		float: right;
 }
 
 table, th, td {
-  border: 1px solid black;
+		border: 1px solid black;
+		padding: 4px;
+}
+
+div {
+		padding: 5px;
+}
+
+p {
+		padding: 5px;
 }

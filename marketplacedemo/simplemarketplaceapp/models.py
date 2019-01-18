@@ -7,7 +7,7 @@ class Product(models.Model):
     inventory_count = models.IntegerField()
 
     def isAvailable(self):
-        return self.inventory_count < 0
+        return self.inventory_count > 0
 
     def purchase(self):
         if self.isAvailable():

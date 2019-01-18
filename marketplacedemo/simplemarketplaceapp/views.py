@@ -1,11 +1,11 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views import generic
 from .models import Product
 
 
 class ProductListView(generic.ListView):
     model = Product
-    # template_name = 'productList.html'
     context_object_name = 'product_list'
 
     def get_queryset(self):
@@ -21,6 +21,17 @@ class ProductListView(generic.ListView):
         else:
             return Product.objects.all()
 
-class DetailView(generic.DetailView):
-    model = Product
-    # template_name = 'product_details.html'
+
+def detail(request, pk):
+    product = Product.objects.get(pk=pk)
+    context = {
+        'product': product,
+    }
+    if product.isAvailable():
+        product.inventory_count -= 1
+        product.save()
+        context['purchaseSuccessful'] = True
+    else:
+        context['purchaseSuccessful'] = False
+
+    return render(request, 'simplemarketplaceapp/product_detail.html', context)

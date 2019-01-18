@@ -1,1 +1,26 @@
-<p>hey there</p>
+{% extends 'simplemarketplaceapp/base.html' %}
+{% block content %}
+{% if purchaseSuccessful %}
+<h3>Thank you for your purchase!</h3>
+<h4>order details:</h4>
+<table>
+	<tr>
+		<td>name:</td>
+		<td>{{ product.title }}</td>
+	</tr>
+	<tr>
+		<td>amount purchased:</td>
+		<td>1</td>
+	</tr>
+	<tr>
+		<td>inventory:</td>
+		<td>{{ product.inventory_count }}</td>
+	</tr>
+</table>
+{% else %}
+<p>The product you selected is out of stock,</p>
+<p>sorry for the inconvenience</p>
+{% endif %}
+<br>
+<a href="{% url 'index' %}"><button>Continue purchases</button></a>
+{% endblock %}
