@@ -16,6 +16,9 @@
 		<td>inventory:</td>
 		<td>{{ product.inventory_count }}</td>
 	</tr>
+	<tr>
+		<td>price:</td>
+		<td>CAD {{ product.price }}
 </table>
 {% else %}
 <p>The product you selected is out of stock,</p>
@@ -23,4 +26,8 @@
 {% endif %}
 <br>
 <a href="{% url 'index' %}"><button>Continue purchases</button></a>
+
+{% load static %}
+<script src="{% static 'simplemarketplaceapp/js/disableBackButton.js' %}"></script>
+
 {% endblock %}

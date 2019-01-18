@@ -21,8 +21,13 @@ class ProductListView(generic.ListView):
         else:
             return Product.objects.all()
 
+    def process_response(self, request, response):
+        response['Cache-Control'] = 'no-cache, must-revalidate, no-store'
+        response['Pragma'] = 'no-cache'
+        return response
 
 def detail(request, pk):
+
     product = Product.objects.get(pk=pk)
     context = {
         'product': product,

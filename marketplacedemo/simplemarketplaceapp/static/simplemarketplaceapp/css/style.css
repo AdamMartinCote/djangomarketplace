@@ -14,3 +14,16 @@ div {
 p {
 		padding: 5px;
 }
+
+.admin-button {
+		float: right;
+		margin: 2px;
+}
+
+main {
+		margin: 10px;
+}
+
+header {
+		margin: 3px;
+}
