@@ -29,7 +29,9 @@
 						<td>{{ product.title }}</td>
 						<td>{{ product.price }}</td>
 						<td>{{ product.inventory_count }}</td>
-						<td><button>Purchase now</button></td>
+						<td>
+							<a href="#"><button>Purchase now</button></a>
+						</td>
 					</tr>
 					{% endfor %}
 				</table>
@@ -38,8 +40,12 @@
 
 		<form method="GET" action="" id="searchform">
 			<h3>filter search:</h3>
-			<input class="searchfield" id="searchbox" name="filter" type="text" value="{{ request.GET.filter }}" placeholder="Search..."/>
-			<button> seach</button>
+			<input class="searchfield" id="searchbox" name="filter"
+						 type="text" value="{{ request.GET.filter }}" placeholder="narrow search..."/>
+			<label>
+				<input type="checkbox" name="onlyAvailable" value="onlyAvailable"
+										 {% if request.GET.onlyAvailable %} checked {% endif %}>Available only</label>
+			<button>Seach</button>
 		</form>
 	</main>
 </body>
