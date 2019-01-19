@@ -3,15 +3,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xt*f5*2&n$9kha=q9ip8s(pp&+#2rqzvd=agymw(6c16uov)mo'
-
-
 if os.environ.get('DEV') is not None:
+    SECRET_KEY = 'asc-97a2439sfvc7d-vvd8732fd&($%(Vdsdfvsd'
     DEBUG = True
     ALLOWED_HOSTS = ['*']
     DATABASES = {
@@ -22,6 +15,7 @@ if os.environ.get('DEV') is not None:
     }
     AUTH_PASSWORD_VALIDATORS = []
 else:
+    SECRET_KEY = os.environment.get('SECRET_KEY')
     DEBUG = False
     ALLOWED_HOSTS = [
         '159.203.47.233',
