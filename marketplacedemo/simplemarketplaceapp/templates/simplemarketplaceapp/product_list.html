@@ -1,0 +1,49 @@
+{% extends 'simplemarketplaceapp/base.html' %}
+{% block content %}
+<main>
+	<h2>Product list:</h2>
+	<div class="product-list">
+		<ul>
+			<table>
+				{% if product_list %}
+				<tr>
+					<th>product name</th>
+					<th>product price</th>
+					<th>inventory</th>
+					<th>purchase</th>
+				</tr>
+				{% else %}
+				<p>No product available</p>
+				{% endif %}
+				{% for product in product_list %}
+				<tr>
+					<td>{{ product.title }}</td>
+					<td>{{ product.price }}</td>
+					<td>{{ product.inventory_count }}</td>
+					<td>
+						<a href="{% url 'detail' product.id %}">
+							<button {% if product.inventory_count < 1 %} disabled {% endif %}>
+								Purchase now
+							</button>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</ul>
+	</div>
+
+	<form method="GET" action="" id="searchform">
+		<h3>filter search:</h3>
+		<input class="searchfield" id="searchbox" name="filter"
+					 type="text" value="{{ request.GET.filter }}" placeholder="narrow search..."/>
+		<label>
+			<input type="checkbox" name="onlyAvailable" value="onlyAvailable"
+						 {% if request.GET.onlyAvailable %} checked {% endif %}>Available only</label>
+			<button>Seach</button>
+	</form>
+
+
+</main>
+</body>
+{% endblock %}
