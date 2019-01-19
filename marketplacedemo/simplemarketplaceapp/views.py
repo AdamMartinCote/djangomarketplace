@@ -32,6 +32,10 @@ def detail(request, pk):
     context = {
         'product': product,
     }
+    cart = self.request.GET.get('cart')
+    if cart:
+        context['cart'] = cart
+
     if product.isAvailable():
         product.inventory_count -= 1
         product.save()
@@ -40,3 +44,7 @@ def detail(request, pk):
         context['purchaseSuccessful'] = False
 
     return render(request, 'simplemarketplaceapp/product_detail.html', context)
+
+def cart(request, pk):
+    product = Product.objects.get(pk=pk)
+    return render(request, 'simplemarketplaceapp/cart.html', {})

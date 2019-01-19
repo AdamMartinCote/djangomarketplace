@@ -3,6 +3,9 @@
 # virtualenv
 venv
 
+# emacs
+.#*
+
 ### OSX ###
 .DS_Store
 .AppleDouble
