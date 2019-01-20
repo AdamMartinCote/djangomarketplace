@@ -15,7 +15,7 @@ if os.environ.get('DEV') is not None:
     }
     AUTH_PASSWORD_VALIDATORS = []
 else:
-    SECRET_KEY = os.environment.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG = False
     ALLOWED_HOSTS = [
         '159.203.47.233',
@@ -108,3 +108,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+SESSION_SAVE_EVERY_REQUEST=True

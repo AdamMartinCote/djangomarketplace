@@ -1,4 +1,32 @@
 {% extends 'simplemarketplaceapp/base.html' %}
 {% block content %}
-<p>this is a cart</p>
+<main>
+	<table>
+		<tr>
+			<th>Product Name</th>
+			<th>Amount purchased</th>
+			<th>Unit price</th>
+		</tr>
+		{% for item,num in request.session.cart.items  %}
+		<tr>
+			<td>{{ item.title }} </td>
+			<td>{{ num }}</td>
+			<td>CAD {{ price_list|get_index:forloop.counter0 }}</td>
+		</tr>
+		{% endfor %}
+		<tr style="border:">
+			<td colspan="3" style="text-align: right">Total: CAD {{ total }}</td>
+		</tr>
+	</table>
+
+	<br>
+	<a href="{% url 'index' %}" >
+		<button>Continue Shopping</button>
+	</a>
+	<br>
+	<a href="#">
+		<button>Confirm Purchase</button>
+	</a>
+	{{ price_list }}
+</main>
 {% endblock %}

@@ -16,18 +16,20 @@
 				<p>No product available</p>
 				{% endif %}
 				{% for product in product_list %}
-				<tr>
-					<td>{{ product.title }}</td>
-					<td>{{ product.price }}</td>
-					<td>{{ product.inventory_count }}</td>
-					<td>
-						<a href="{% url 'detail' product.id %}">
-							<button {% if product.inventory_count < 1 %} disabled {% endif %}>
-								Purchase now
-							</button>
-						</a>
-					</td>
-				</tr>
+				<form action="{% url 'cart' %}" method="GET">
+					<input type="hidden" name="product_id" value="{{ product.id }}" >
+					<tr>
+						<td>{{ product.title }}</td>
+						<td>{{ product.price }}</td>
+						<td>{{ product.inventory_count }}</td>
+						<td>
+							<input {% if product.inventory_count < 1 %} disabled {% endif %}
+							type="submit"
+							name="{{ product.id }}"
+							value="Purchase now">
+						</td>
+					</tr>
+				</form>
 				{% endfor %}
 			</table>
 		</ul>
@@ -42,8 +44,6 @@
 						 {% if request.GET.onlyAvailable %} checked {% endif %}>Available only</label>
 			<button>Seach</button>
 	</form>
-
-
 </main>
 </body>
 {% endblock %}
