@@ -3,35 +3,35 @@
 <main>
 	<h2>Product list:</h2>
 	<div class="product-list">
-		<ul>
-			<table>
-				{% if product_list %}
-				<tr>
-					<th>product name</th>
-					<th>product price</th>
-					<th>inventory</th>
-					<th>purchase</th>
-				</tr>
-				{% else %}
-				<p>No product available</p>
-				{% endif %}
-				{% for product in product_list %}
+		<table>
+			{% if product_list %}
+			<tr>
+				<th>product name</th>
+				<th>product price</th>
+				<th>inventory</th>
+				<th>purchase</th>
+			</tr>
+			{% else %}
+			<p>No product available</p>
+			{% endif %}
+
+			{% for product in product_list %}
+			<tr>
 				<form action="{% url 'cart' %}" method="GET">
-					<input type="hidden" name="product_id" value="{{ product.id }}" >
-					<tr>
-						<td>{{ product.title }}</td>
-						<td>{{ product.price }}</td>
-						<td>{{ product.inventory_count }}</td>
-						<td>
-							<input {% if product.inventory_count < 1 %} disabled {% endif %}
-							type="submit"
-							name="{{ product.id }}"
-							value="Purchase now">
-						</td>
-					</tr>
+					<td>{{ product.title }}</td>
+					<td>{{ product.price }}</td>
+					<td>{{ product.inventory_count }}</td>
+					<td>
+						<input type="hidden" name="product_id" value="{{ product.id }}" >
+						<input type="submit"
+									 name="{{ product.id }}"
+									 value="Purchase now"
+									 {% if product.inventory_count < 1 %} disabled {% endif %}>
+					</td>
 				</form>
-				{% endfor %}
-			</table>
+			</tr>
+			{% endfor %}
+		</table>
 		</ul>
 	</div>
 

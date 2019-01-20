@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.sessions.models import Session
 
 from .models import Product
 
@@ -11,3 +12,6 @@ class ProductAdmin(admin.ModelAdmin):
         'price',
         'inventory_count',
     ]
+
+
+admin.site.register(Session)

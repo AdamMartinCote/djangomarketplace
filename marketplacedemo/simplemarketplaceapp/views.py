@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
@@ -31,16 +32,16 @@ class ProductListView(generic.ListView):
     def get_context_data(self, **kwargs):
         "Add to context"
         context = super(generic.ListView, self).get_context_data(**kwargs)
-        context['cart'] = {'tesla car': 1}
         return context
 
 
 def cart(request):
     request.session.modified = True
     try:
-        product_to_add = Product.objects.get(pk=request.GET['product_id'][0])
+        product_id = request.GET['product_id']
+        product_to_add = Product.objects.get(pk=request.GET['product_id'])
     except:
-        HttpResponse("Unknown error")
+        return HttpResponse("Unknown error")
 
     if request.session.get('cart') is None:
         request.session['cart'] = {}
@@ -50,22 +51,6 @@ def cart(request):
     else:
         request.session['cart'][product_to_add.title] += 1
 
-    @register.filter
-    def get_index(List, i):
-        return List[int(i)]
-
-    def get_price_from_title(title):
-        try:
-            return Product.objects.get(title=title).price
-        except:
-            return 0
-
-    def total(cart):
-        total = 0
-        for item_name,amount in cart.items():
-            price = get_price_from_title(item_name)
-            total += price * amount
-        return total
 
     price_list = [
         get_price_from_title(title) for title in request.session['cart']
@@ -78,46 +63,62 @@ def cart(request):
     return render(request, 'simplemarketplaceapp/cart.html', context)
 
 
-def detail(request, pk):
-    product = Product.objects.get(pk=pk)
-    context = {
-        'product': product,
-    }
-    cart = request.GET.get('cart')
-    if cart:
-        context['cart'] = cart
-
-    if product.isAvailable():
-        product.inventory_count -= 1
-        product.save()
-        context['purchaseSuccessful'] = True
-    else:
-        context['purchaseSuccessful'] = False
-
-    return render(request, 'simplemarketplaceapp/product_detail.html', context)
-
-def confim_purchase(request):
+def purchase(request):
     if request.session.get('cart') is None:
         text = "Your cart is empty"
-
     else:
         # Validate that transaction is possible
-        for item,amount in request.session['cart'].items:
+        for item,amount in request.session['cart'].items():
             product = Product.objects.get(title=item)
             if product.inventory_count < amount:
                 text = """
                 Some items in your cart are not available anymore
                 The order was cancelled, sorry for the inconvenience
                 """
-                break
+                clear_cart(request)
+                return render(request,'simplemarketplaceapp/purchase.html', {
+                    'text': text
+                })
         # Execute transaction
-        for item,amount in request.session['cart'].items:
+        for item,amount in request.session['cart'].items():
             product = Product.objects.get(title=item)
             product.inventory_count -= amount
+            product.save()
         text = """
         Your order is complete,
         Thank you
         """
-    return render(requets, 'purchase.html', {
+        clear_cart(request)
+    return render(request, 'simplemarketplaceapp/purchase.html', {
         'text': text
     })
+
+
+
+#######
+# Utils
+#######
+
+def clear_cart(request):
+    if request.session.get('cart'):
+        request.session['cart'] = {}
+
+
+@register.filter
+def get_index(List, i):
+    return List[int(i)]
+
+
+def get_price_from_title(title):
+    try:
+        return Product.objects.get(title=title).price
+    except:
+        return 0
+
+
+def total(cart):
+    total = 0
+    for item_name,amount in cart.items():
+        price = get_price_from_title(item_name)
+        total += price * amount
+    return total
