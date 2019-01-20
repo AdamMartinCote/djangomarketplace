@@ -1,3 +1,4 @@
+
 <head>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'simplemarketplaceapp/css/style.css' %}">
@@ -8,7 +9,8 @@
 </head>
 <body>
 	<header>
-		<a href="{% url 'admin:index' %}"><button class="admin-button">Administration</button></a>
+		<a href="{% url 'admin:index' %}" class="admin-button btn btn-secondary">
+			Administration</a>
 		<h1>Adam's awesome marketplace</h1>
 	</header>
 	{% block content %}

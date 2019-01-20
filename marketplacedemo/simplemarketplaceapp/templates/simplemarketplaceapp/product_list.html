@@ -26,6 +26,7 @@
 						<input type="submit"
 									 name="{{ product.id }}"
 									 value="Purchase now"
+									 class="btn btn-secondary"
 									 {% if product.inventory_count < 1 %} disabled {% endif %}>
 					</td>
 				</form>
@@ -42,7 +43,7 @@
 		<label>
 			<input type="checkbox" name="onlyAvailable" value="onlyAvailable"
 						 {% if request.GET.onlyAvailable %} checked {% endif %}>Available only</label>
-			<button>Seach</button>
+			<button class="btn btn-secondary">Filter search</button>
 	</form>
 </main>
 </body>

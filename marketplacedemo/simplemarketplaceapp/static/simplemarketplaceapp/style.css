@@ -27,3 +27,8 @@ main {
 header {
 		margin: 3px;
 }
+
+a:hover {
+		text-decoration: none;
+		text-weight: bold;
+}
